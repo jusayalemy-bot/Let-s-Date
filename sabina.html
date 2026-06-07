@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сабина 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rose: #e8a0bf;
+    --blush: #f7cfe0;
+    --cream: #fff5f0;
+    --deep: #a0476a;
+    --text: #4a2535;
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .petal {
+    position: absolute;
+    border-radius: 50% 0 50% 0;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 0.4; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  .screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    padding: 2rem;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .screen.hidden { opacity: 0; pointer-events: none; transform: scale(0.95); }
+
+  /* SCREEN 1 */
+  #screen1 {
+    background: radial-gradient(ellipse at 40% 40%, #fde8f0 0%, #ffd6e7 40%, #f9c1d4 100%);
+  }
+
+  .heart-decor {
+    font-size: 3rem;
+    animation: pulse 1.8s ease-in-out infinite;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 4px 16px rgba(200, 80, 120, 0.3));
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 7vw, 3.5rem);
+    color: var(--deep);
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 2.5rem;
+    text-shadow: 0 2px 8px rgba(160, 71, 106, 0.15);
+  }
+
+  .btn {
+    padding: 0.9rem 2.8rem;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-yes {
+    background: linear-gradient(135deg, #e8607a, #c0395a);
+    color: #fff;
+    box-shadow: 0 6px 24px rgba(192, 57, 90, 0.4);
+    display: block;
+    margin-bottom: 1.2rem;
+  }
+  .btn-yes:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 32px rgba(192, 57, 90, 0.5);
+  }
+  .btn-no {
+    background: #fff;
+    color: var(--deep);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    border: 2px solid var(--rose) !important;
+    transition: left 0.15s ease, top 0.15s ease, opacity 0.3s;
+    position: fixed;
+  }
+
+  /* SCREEN 2 */
+  #screen2 {
+    background: radial-gradient(ellipse at 60% 30%, #fff5f0 0%, #fde8f0 60%, #ffd6e7 100%);
+    gap: 1rem;
+    overflow-y: auto;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    justify-content: flex-start;
+  }
+
+  .s2-header {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    color: var(--deep);
+    text-align: center;
+    margin-bottom: 0.2rem;
+  }
+  .s2-sub {
+    font-size: 0.9rem;
+    color: #c07090;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 1.4rem 1.8rem;
+    box-shadow: 0 6px 24px rgba(200, 80, 120, 0.1);
+    width: min(420px, 100%);
+    border: 1px solid rgba(255,255,255,0.85);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--deep);
+    margin-bottom: 0.8rem;
+  }
+
+  input[type="date"], input[type="time"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--blush);
+    border-radius: 14px;
+    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="date"]:focus, input[type="time"]:focus { border-color: var(--rose); }
+
+  .format-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+  }
+  .format-btn {
+    padding: 0.9rem;
+    border: 2px solid var(--blush);
+    border-radius: 14px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .format-btn .icon { font-size: 1.5rem; }
+  .format-btn:hover, .format-btn.selected {
+    border-color: var(--deep);
+    background: linear-gradient(135deg, #fde8f0, #ffd6e7);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(200,80,120,0.2);
+  }
+
+  .btn-send {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #e8607a, #c0395a);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(192, 57, 90, 0.35);
+    transition: all 0.2s;
+  }
+  .btn-send:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(192, 57, 90, 0.45); }
+  .btn-send:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+  /* SCREEN 3 */
+  #screen3 {
+    background: radial-gradient(ellipse at 50% 40%, #fff5f0, #fde8f0);
+    text-align: center;
+    gap: 1rem;
+  }
+  .big-emoji { font-size: 5rem; animation: bounce 1s ease infinite alternate; }
+  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+  .success-text { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--deep); }
+  .success-sub { color: #c07090; font-size: 1rem; }
+
+  .confetti-piece {
+    position: fixed;
+    border-radius: 2px;
+    animation: confetti-fall 2.5s ease-out forwards;
+    pointer-events: none;
+    z-index: 100;
+  }
+  @keyframes confetti-fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(540deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="petals" id="petals"></div>
+
+<!-- SCREEN 1 -->
+<div class="screen" id="screen1">
+  <div class="heart-decor">💌</div>
+  <h1>Сабина,<br>идём на свидание?</h1>
+  <button class="btn btn-yes" onclick="showScreen2()">Да, конечно! 💖</button>
+  <button class="btn btn-no" id="btnNo" onmouseover="escapeNo(event)" ontouchstart="escapeNo(event)">Нет</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen hidden" id="screen2">
+  <div class="heart-decor" style="margin-bottom:0; font-size:2rem">🌸</div>
+  <div class="s2-header">Отлично! Когда и как?</div>
+  <p class="s2-sub">выбери детали нашего вечера</p>
+
+  <div class="card">
+    <div class="card-title">📅 Дата</div>
+    <input type="date" id="dateInput">
+  </div>
+
+  <div class="card">
+    <div class="card-title">🕐 Время</div>
+    <input type="time" id="timeInput" value="19:00">
+  </div>
+
+  <div class="card">
+    <div class="card-title">✨ Формат свидания</div>
+    <div class="format-grid">
+      <button class="format-btn" onclick="selectFormat(this, 'Боулинг')">
+        <span class="icon">🎳</span> Боулинг
+      </button>
+      <button class="format-btn" onclick="selectFormat(this, 'Кино')">
+        <span class="icon">🎬</span> Кино
+      </button>
+      <button class="format-btn" onclick="selectFormat(this, 'Муз. кафе')">
+        <span class="icon">🎵</span> Муз. кафе
+      </button>
+      <button class="format-btn" onclick="selectFormat(this, 'Прогулка')">
+        <span class="icon">🌿</span> Прогулка
+      </button>
+    </div>
+  </div>
+
+  <div style="width:min(420px,100%)">
+    <button class="btn-send" id="btnSend" onclick="sendAnswer()" disabled>Отправить ответ 💌</button>
+  </div>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen hidden" id="screen3">
+  <div class="big-emoji">🎉</div>
+  <div class="success-text">Ура! Жду не дождусь!</div>
+  <div class="success-sub">Твой ответ уже летит к нему 💌</div>
+  <div style="margin-top:1rem; font-size:0.9rem; color:#c07090;">скоро увидимся ✨</div>
+</div>
+
+<script>
+  // Petals
+  const petalsContainer = document.getElementById('petals');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.top = (Math.random() * 100 - 20) + 'vh';
+    p.style.animationDuration = (5 + Math.random() * 10) + 's';
+    p.style.animationDelay = (Math.random() * 8) + 's';
+    const size = (8 + Math.random() * 12) + 'px';
+    p.style.width = p.style.height = size;
+    p.style.opacity = 0.2 + Math.random() * 0.3;
+    p.style.background = `hsl(${330 + Math.random() * 20}, 70%, 80%)`;
+    petalsContainer.appendChild(p);
+  }
+
+  // No button — place it initially below Yes button
+  const btnNo = document.getElementById('btnNo');
+  let noMoved = false;
+  let noClickCount = 0;
+
+  // Position "Нет" under "Да" on load
+  window.addEventListener('load', () => {
+    const btnYes = document.querySelector('.btn-yes');
+    const rect = btnYes.getBoundingClientRect();
+    btnNo.style.left = (rect.left + rect.width / 2 - btnNo.offsetWidth / 2) + 'px';
+    btnNo.style.top = (rect.bottom + 16) + 'px';
+  });
+
+  function escapeNo(e) {
+    noClickCount++;
+    const margin = 60;
+    const btnW = btnNo.offsetWidth;
+    const btnH = btnNo.offsetHeight;
+    const maxX = window.innerWidth - btnW - margin;
+    const maxY = window.innerHeight - btnH - margin;
+    let rx, ry;
+    // Make sure it escapes far from cursor
+    const cx = e.clientX || window.innerWidth / 2;
+    const cy = e.clientY || window.innerHeight / 2;
+    do {
+      rx = margin + Math.random() * maxX;
+      ry = margin + Math.random() * maxY;
+    } while (Math.abs(rx - cx) < 150 && Math.abs(ry - cy) < 150);
+
+    btnNo.style.left = rx + 'px';
+    btnNo.style.top = ry + 'px';
+
+    if (noClickCount === 1) btnNo.textContent = 'Нет...';
+    if (noClickCount === 3) btnNo.textContent = 'Ну нет 😅';
+    if (noClickCount === 5) btnNo.textContent = 'Не поймаешь 😏';
+    if (noClickCount >= 7) btnNo.style.opacity = '0.35';
+  }
+
+  // Screen 2
+  function showScreen2() {
+    document.getElementById('screen1').classList.add('hidden');
+    setTimeout(() => {
+      document.getElementById('screen2').classList.remove('hidden');
+    }, 300);
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('dateInput').min = today;
+    document.getElementById('dateInput').value = today;
+  }
+
+  // Format selection
+  let selectedFormat = '';
+  function selectFormat(el, name) {
+    document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedFormat = name;
+    checkReady();
+  }
+
+  function checkReady() {
+    const date = document.getElementById('dateInput').value;
+    const time = document.getElementById('timeInput').value;
+    document.getElementById('btnSend').disabled = !(date && time && selectedFormat);
+  }
+
+  document.getElementById('dateInput').addEventListener('change', checkReady);
+  document.getElementById('timeInput').addEventListener('change', checkReady);
+
+  // Send
+  async function sendAnswer() {
+    const date = document.getElementById('dateInput').value;
+    const time = document.getElementById('timeInput').value;
+    const format = selectedFormat;
+
+    const d = new Date(date + 'T' + time);
+    const dateStr = d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    const timeStr = time;
+
+    const message = `💌 Сабина согласилась!\n\n📅 Дата: ${dateStr}\n🕐 Время: ${timeStr}\n✨ Формат: ${format}`;
+
+    const TOKEN = '8800566527:AAH4yBe5oFC5zTy7NGul9unEgZqejwM1FlE';
+    const CHAT_ID = '5710917517';
+
+    try {
+      await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+      });
+    } catch(e) {
+      console.log('Telegram error:', e);
+    }
+
+    document.getElementById('screen2').classList.add('hidden');
+    setTimeout(() => {
+      document.getElementById('screen3').classList.remove('hidden');
+      launchConfetti();
+    }, 300);
+  }
+
+  function launchConfetti() {
+    const colors = ['#e8607a','#f7a8c4','#ffd6e7','#c0395a','#f9d9c8','#b5d5f5'];
+    for (let i = 0; i < 80; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti-piece';
+        c.style.left = (10 + Math.random() * 80) + 'vw';
+        c.style.top = '-10px';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        const s = (6 + Math.random() * 10) + 'px';
+        c.style.width = c.style.height = s;
+        c.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 3500);
+      }, i * 30);
+    }
+  }
+</script>
+</body>
+</html>
